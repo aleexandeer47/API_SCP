@@ -44,7 +44,7 @@ public class CostosUnitariosEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "codigo_e", referencedColumnName = "codigo_e")
     private EmpresasEntity codigo_e;
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "codigo_pu", referencedColumnName = "codigo_pu")
     private PrecioUnitarioEntity codigo_pu;
 
