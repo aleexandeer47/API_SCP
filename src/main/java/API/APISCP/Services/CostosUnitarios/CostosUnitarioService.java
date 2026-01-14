@@ -74,10 +74,7 @@ public class CostosUnitarioService {
             CostosUnitariosEntity costosUnitarioSave = repo.save(costosUnitariosEntity);
             return  convertirADTO(costosUnitarioSave);
         }catch (Exception e){
-
-            log.error("Error al registrar el costos unitario " + e.getMessage());
             throw  new CostoUnitarioNoEncontrado("Error al registrar el costo unitario " + e.getMessage());
-
         }
     }
 
