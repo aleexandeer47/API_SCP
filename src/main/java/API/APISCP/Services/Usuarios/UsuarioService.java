@@ -93,7 +93,7 @@ public class UsuarioService {
     }
 
     /**
-     * 
+     *
      * @param id
      * @return
      */
