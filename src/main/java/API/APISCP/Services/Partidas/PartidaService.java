@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ public class PartidaService {
      *Leer
      * @return
      */
+    @Transactional(readOnly = true)
     public List<PartidasDTO> obtenerPartidas(){
         List<PartidasEntity> ListEntity = repo.findAll();
         return ListEntity.stream()
@@ -45,6 +47,7 @@ public class PartidaService {
      * @return
      */
 
+    @Transactional
     public PartidasDTO insertar(@Valid PartidasDTO jsonDATA){
         if (jsonDATA == null){
             throw new IllegalArgumentException("El valor de la partida no puede ser nula");
@@ -64,6 +67,7 @@ public class PartidaService {
      * @param jsonDTO
      * @return
      */
+    @Transactional
     public PartidasDTO actualizar(Long id, @Valid PartidasDTO jsonDTO){
         if (jsonDTO == null){
             throw  new IllegalArgumentException("La partida no puede ser nula");
@@ -82,6 +86,7 @@ public class PartidaService {
      * @param id
      * @return
      */
+    @Transactional
     public boolean eliminar(Long id){
      try {
          PartidasEntity objEntity = repo.findById(id).orElse(null);

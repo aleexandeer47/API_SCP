@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +40,7 @@ public class CostosIndirectosService {
      * @return
      */
 
+    @Transactional(readOnly = true)
     public List <CostosIndirectosDTO> obtenerCostosI(){
         List <CostosIndirectosEntity> ListEntity = repo.findAll();
         return ListEntity.stream()
@@ -52,6 +54,7 @@ public class CostosIndirectosService {
      * @param jsonDATA
      * @return
      */
+    @Transactional
     public CostosIndirectosDTO insertar(@Valid CostosIndirectosDTO jsonDATA){
         if (jsonDATA == null){
             throw  new IllegalArgumentException("Los costos indirectos no pueden ser nulos");
@@ -73,6 +76,7 @@ public class CostosIndirectosService {
      * @return
      */
 
+    @Transactional
     public CostosIndirectosDTO actualizar(Long id, @Valid CostosIndirectosDTO jsonDTO){
         if (jsonDTO == null){
             throw new IllegalArgumentException("El costo indirecto no puede ser nula");
@@ -88,6 +92,7 @@ public class CostosIndirectosService {
      * @param id
      * @return
      */
+    @Transactional
     public boolean eliminar (Long id){
         try {
             CostosIndirectosEntity objEntity = repo.findById(id).orElse(null);

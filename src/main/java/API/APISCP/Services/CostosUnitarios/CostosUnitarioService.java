@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,6 +53,7 @@ public class CostosUnitarioService {
      *
      * @return
      */
+    @Transactional(readOnly = true)
     public List <CostosUnitariosDTO> obtenerCostosU(){
         List<CostosUnitariosEntity> ListEntity = repo.findAll();
         return ListEntity.stream()
@@ -65,6 +67,7 @@ public class CostosUnitarioService {
      * @return
      */
 
+    @Transactional
     public CostosUnitariosDTO insertar(@Valid CostosUnitariosDTO jsonDATA){
         if (jsonDATA == null){
             throw  new IllegalArgumentException("Los costos unitarios no pueden ser nulos");
@@ -84,6 +87,7 @@ public class CostosUnitarioService {
      * @param jsonDTO
      * @return
      */
+    @Transactional
     public CostosUnitariosDTO actualizar(Long id, @Valid CostosUnitariosDTO jsonDTO){
         if (jsonDTO == null){
             throw  new IllegalArgumentException("El costo unitario no puede ser nulo");
@@ -103,6 +107,7 @@ public class CostosUnitarioService {
      * @param id
      * @return
      */
+    @Transactional
      public boolean eliminar(Long id){
         try {
             CostosUnitariosEntity objEntity = repo.findById(id).orElse(null);

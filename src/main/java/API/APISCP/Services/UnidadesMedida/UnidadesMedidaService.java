@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +34,7 @@ public class UnidadesMedidaService {
      * @return
      */
 
+    @Transactional(readOnly = true)
     public List<UnidadesMedidaDTO>obtenerUnidadesM(){
         List<UnidadesMedidaEntity> ListEntity = repo.findAll();
         return ListEntity.stream()
@@ -45,6 +47,7 @@ public class UnidadesMedidaService {
      * @param jsonDATA
      * @return
      */
+    @Transactional
     public UnidadesMedidaDTO insertar(@Valid UnidadesMedidaDTO jsonDATA){
         if (jsonDATA == null){
             throw  new IllegalArgumentException("La unidad de medida no puede ser nula");
@@ -64,6 +67,7 @@ public class UnidadesMedidaService {
      * @param jsonDTO
      * @return
      */
+    @Transactional
     public UnidadesMedidaDTO actualizar(Long id , @Valid UnidadesMedidaDTO jsonDTO){
         if (jsonDTO == null){
             throw  new UnidadMedidaNoEncontrado("El valor de la unidad de medida no puede ser nulo");
@@ -82,6 +86,7 @@ public class UnidadesMedidaService {
      * @return
      */
 
+    @Transactional
     public Boolean eliminar(Long id){
         try {
             UnidadesMedidaEntity entity = repo.findById(id).orElse(null);

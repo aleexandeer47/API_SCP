@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +25,7 @@ public class RoleService {
      *
      * @return
      */
+    @Transactional(readOnly = true)
     public List<RolesDTO>obtenerRol(){
         List<RolesEntity> entityList = repo.findAll();
         return entityList.stream()
@@ -36,6 +38,7 @@ public class RoleService {
      * @param jsonDTO
      * @return
      */
+    @Transactional
     public RolesDTO insertar(@Valid RolesDTO jsonDTO){
         if (jsonDTO == null){
             throw new IllegalArgumentException("El valor del rol no puede ser nulo");
@@ -55,6 +58,7 @@ public class RoleService {
      * @param jsonDTO
      * @return
      */
+    @Transactional
     public RolesDTO actualizar(Long id, @Valid RolesDTO jsonDTO){
         if (jsonDTO == null){
             throw new IllegalArgumentException("El valor del rol no puede ser nulo");
@@ -70,6 +74,7 @@ public class RoleService {
      * @param id
      * @return
      */
+    @Transactional
     public Boolean eliminar(Long id){
         try {
             RolesEntity entity = repo.findById(id).orElse(null);

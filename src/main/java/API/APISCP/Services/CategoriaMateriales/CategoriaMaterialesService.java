@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class CategoriaMaterialesService {
      * @return
      */
 
+    @Transactional(readOnly = true)
     public List<CategoriaMaterialDTO> obtenerCategoriasM(){
 
     List <CategoriaMaterialesEntity> ListEntity = repo.findAll();
@@ -44,6 +46,8 @@ public class CategoriaMaterialesService {
      * @param jsonData
      * @return
      */
+
+    @Transactional
     public CategoriaMaterialDTO insertar(@Valid CategoriaMaterialDTO jsonData){
         if (jsonData == null){
             throw  new IllegalArgumentException("La categoria del material no puede ser nula");
@@ -64,6 +68,7 @@ public class CategoriaMaterialesService {
      * @param jsonDTO
      * @return
      */
+    @Transactional
     public CategoriaMaterialDTO actualizar(Long id,  @Valid  CategoriaMaterialDTO jsonDTO){
         if (jsonDTO == null){
             throw new IllegalArgumentException("La categoria del material no puede ser nula");
@@ -80,6 +85,7 @@ public class CategoriaMaterialesService {
      * @return
      */
 
+    @Transactional
     public boolean eliminar(Long id){
         try{
             CategoriaMaterialesEntity objEntity = repo.findById(id).orElse(null);

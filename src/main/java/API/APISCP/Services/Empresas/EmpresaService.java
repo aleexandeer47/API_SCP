@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ public class EmpresaService {
      * @return
      */
 
+    @Transactional(readOnly = true)
     public List <EmpresasDTO> obtenerEmpresas(){
         List<EmpresasEntity> listEnity = repo.findAll();
         return listEnity.stream()
@@ -37,6 +39,7 @@ public class EmpresaService {
      * @param jsonDATA
      * @return
      */
+    @Transactional
     public EmpresasDTO insertar(@Valid EmpresasDTO jsonDATA ){
         if (jsonDATA == null){
             throw new IllegalArgumentException("La empresa no puede ser con valor nulo");
@@ -56,6 +59,7 @@ public class EmpresaService {
      * @param jsonDTO
      * @return
      */
+    @Transactional
     public EmpresasDTO actualizar(Long id, @Valid EmpresasDTO jsonDTO){
         if (jsonDTO == null){
             throw  new IllegalArgumentException("El valor no puede ser nulo");
@@ -73,6 +77,7 @@ public class EmpresaService {
      * @return
      */
 
+    @Transactional
     public boolean eliminar(Long id){
         try {
             EmpresasEntity empresasEntity = repo.findById(id).orElse(null);

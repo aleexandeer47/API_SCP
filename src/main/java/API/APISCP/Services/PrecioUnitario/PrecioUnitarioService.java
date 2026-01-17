@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +44,7 @@ public class PrecioUnitarioService {
      * @return
      */
 
+    @Transactional(readOnly = true)
     public List<PrecioUnitarioDTO> obtenerPrecioUnitario(){
         List<PrecioUnitarioEntity> ListEntity = repo.findAll();
                 return ListEntity.stream()
@@ -56,6 +58,8 @@ public class PrecioUnitarioService {
      * @return
      */
 
+
+    @Transactional
     public PrecioUnitarioDTO insertar(@Valid PrecioUnitarioDTO jsonData){
        if (jsonData == null){
            throw  new IllegalArgumentException("El precio unitario no puede ser nulo");
@@ -75,6 +79,7 @@ public class PrecioUnitarioService {
      * @param jsonDTO
      * @return
      */
+    @Transactional
     public PrecioUnitarioDTO actualizar(Long id, @Valid PrecioUnitarioDTO jsonDTO){
         if (jsonDTO == null){
             throw  new IllegalArgumentException("El precio unitario no puede ser nulo");
@@ -94,6 +99,7 @@ public class PrecioUnitarioService {
      * @param id
      * @return
      */
+    @Transactional
     public boolean eliminar(Long id){
       try {
 
@@ -107,6 +113,7 @@ public class PrecioUnitarioService {
           throw  new EmptyResultDataAccessException("Error al eliminar el precio unitario con el id: " + id , 1);
       }
     }
+
 
 
     public PrecioUnitarioDTO convertirADTO(PrecioUnitarioEntity objEntity){

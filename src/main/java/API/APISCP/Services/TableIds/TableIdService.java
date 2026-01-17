@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +25,8 @@ public class TableIdService {
      *
      * @return
      */
+
+    @Transactional(readOnly = true )
     public List<TableIdsDTO>obtener(){
         List<TableIdEntity> entityList = repo.findAll();
         return entityList.stream()
@@ -36,6 +39,7 @@ public class TableIdService {
      * @param jsonData
      * @return
      */
+    @Transactional
     public TableIdsDTO insertarTableIds(@Valid TableIdsDTO jsonData){
         if (jsonData == null){
             throw new IllegalArgumentException("El valor del id de la tabla no puede ser nula");
@@ -57,6 +61,7 @@ public class TableIdService {
      * @return
      */
 
+    @Transactional
     public TableIdsDTO actualizarTableIds(Long id, @Valid TableIdsDTO jsonDTO){
         if (jsonDTO == null){
             throw new TableidNoEncontrado("El valor de la tabla id no puede ser nulo");
@@ -67,6 +72,7 @@ public class TableIdService {
         return convertirADTO(entity);
     }
 
+    @Transactional
     public boolean Eliminar(Long id){
      try {
          TableIdEntity entity = repo.findById(id).orElse(null);
