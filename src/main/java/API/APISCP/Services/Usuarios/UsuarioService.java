@@ -89,28 +89,30 @@ public class UsuarioService {
     // ELIMINAR USUARIO
     // ============================
     @Transactional
-    public void eliminar(Long id) {
-        if (!repo.existsById(id)) {
-            throw new UsuarioNoEncontrado("Usuario no encontrado");
+    public boolean eliminar(Long id) {
+        UsuariosEntity existente = repo.findById(id).orElse(null);
+        if (existente!=null){
+            repo.deleteById(id);
+            return true;
+        }else {
+            log.error("Usuario no encontrado");
+            return false;
         }
-        repo.deleteById(id);
     }
 
     // ============================
     // CAMBIAR CONTRASEÑA (AUTOGENERADA)
     // ============================
     @Transactional
-    public String cambiarContrasena(@Valid Long id) {
-
-        UsuariosEntity entity = repo.findById(id)
-                .orElseThrow(() -> new UsuarioNoEncontrado("Usuario no encontrado"));
-
-        String newPassword = PasswordGenerator.generateSecurePassword(12);
-        entity.setContrasena(argon2.EncriptarContrasenia(newPassword));
-
-        repo.save(entity);
-
-        return newPassword; // para notificar al usuario
+    public boolean cambiarContrasena(@Valid Long id) {
+        UsuariosEntity existente = repo.findById(id).orElseThrow(() -> new UsuarioNoEncontrado("Usuario no encontrado"));
+        if (existente != null){
+            String newPassword = PasswordGenerator.generateSecurePassword(12);
+            existente.setContrasena(argon2.EncriptarContrasenia(newPassword));
+            UsuariosEntity usuarioActualizado = repo.save(existente);
+            return true;
+        }
+        return false;
     }
 
     // ============================
